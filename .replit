@@ -1,0 +1,8 @@
+run = "node server.js"
+
+[auth]
+pageEnabled = false
+buttonEnabled = false
+
+# [nix]
+# channel = "stable-21_11"
