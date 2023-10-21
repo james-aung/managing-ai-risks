@@ -2102,14 +2102,6 @@ d-appendix > distill-appendix {
       <h3>Published</h3>
         <p><em>October 23, 2023</em></p>
     </div>
-    <div>
-      <h3>Arxiv</h3>
-        <p><em>URL HERE</em></p>
-    </div>
-    <div>
-      <h3 style="white-space: nowrap;">Executive Summary</h3>
-        <p><em>URL HERE</em></p>
-    </div>
   </div>
 `;
   }

@@ -3,29 +3,22 @@ const app = express();
 const port = 3000;
 const path = require('path');
 
-app.use((req, res, next) => {
-  if (req.headers['x-forwarded-proto'] !== 'https') {
-    return res.redirect(`https://${req.hostname}${req.url}`);
-  }
-  return next();
-});
+// Middleware to restrict access to specific users
+function requireSpecificUser(req, res, next) {
+  // Replace with the usernames you want to allow
+  const allowedUsernames = ['JamesAung', 'janbrauner', 'SoerenMind'];
+  const username = req.headers['x-replit-user-name'];
 
-
-const PASSWORD = process.env.SITE_PASSWORD;
-;
-
-const passwordProtected = (req, res, next) => {
-  res.set('WWW-Authenticate', 'Basic realm="Simple Site"');
-  if (req.headers.authorization === `Basic ${Buffer.from(`:${PASSWORD}`).toString('base64')}`) {
+  if (username && allowedUsernames.includes(username)) {
     next();
   } else {
-    res.status(401).send("Authentication required");
+    res.status(403).send('Forbidden');
   }
 }
 
-// Toggle this as comment when we want to disable password protection
-app.use(passwordProtected);
 
+// Comment out the following line to disable authentication and remember to turn off Replit Auth
+app.use(requireSpecificUser);
 
 // Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, 'public')));
@@ -36,5 +29,5 @@ app.get('/', function(req, res) {
 });
 
 app.listen(port, () => {
-  // Code.....
+  console.log(`Server running on http://localhost:${port}`);
 });
