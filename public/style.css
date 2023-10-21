@@ -1,3 +1,56 @@
+
+body {
+  font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+d-byline {
+  background-color: #f8f9fa;
+}
+
+d-title {
+
+}
+
+.byline .authors-affiliations {
+  grid-column: 1 / -1;
+  white-space: nowrap;
+  margin-bottom: 15px !important;
+}
+
+@media (min-width: 768px) {
+
+  .byline .authors-affiliations {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+
+}    
+
+.author-affiliation {
+  margin-bottom: 5px;
+}
+
+d-byline .name {
+  font-weight: 700;
+}
+
+d-byline .affiliation {
+  font-size: 0.7rem;
+}
+
+.citation {
+  font-size: 11px;
+  line-height: 15px;
+  border: 1px solid rgba(0,0,0,0.1);
+  background: rgba(0, 0, 0, 0.02);
+  padding: 10px 18px;
+  border-radius: 3px;
+  color: rgba(150, 150, 150, 1);
+  overflow: hidden;
+  margin-top: -12px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
 .download {
   border-bottom:none;
 }
