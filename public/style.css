@@ -3,8 +3,27 @@ body {
   font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
+/* @media (min-width: 768px) {
+d-byline, d-article {
+  grid-template-columns: [screen-start] 1fr [page-start kicker-start middle-start text-start] 45px 45px 45px 45px 45px 45px 45px 45px [ kicker-end text-end gutter-start] 45px [middle-end] 45px [page-end gutter-end] 1fr [screen-end] !important;
+color:red;
+}
+} */
+
+/* @media (max-width: 368px)
+d-byline, d-article {
+  grid-template-columns: [screen-start] 8px [page-start kicker-start text-start gutter-start middle-start] 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr [text-end page-end gutter-end kicker-end middle-end] 8px [screen-end] !important;
+color:red !important;
+} */
+
 d-byline {
   background-color: #f8f9fa;
+}
+
+#byline-h1 {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  grid-column: 1 / -1;
+  padding-bottom: 1rem;
 }
 
 d-title {

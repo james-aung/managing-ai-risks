@@ -916,7 +916,7 @@ ${math}
       } else if (url.slice(-5) == ".html") {
         var label = "HTML";
       }
-      return ` &ensp;<a href="${url}">[${label || "link"}]</a>`;
+      return ` &ensp;<a target="_blank" href="${url}">[${label || "link"}]</a>`;
     } /* else if ("doi" in ent){
       return ` &ensp;<a href="https://doi.org/${ent.doi}" >[DOI]</a>`;
     }*/ else {
@@ -2083,6 +2083,7 @@ d-appendix > distill-appendix {
   function bylineTemplate(frontMatter) {
     return `
   <div class="byline grid">
+    <h1 id="byline-h1">Authors</h1>
     <div class="authors-affiliations grid">
   ${frontMatter.authors.map(author => `
     <div class="author-affiliation">
@@ -2293,38 +2294,42 @@ d-citation-list .references .title {
 }
 `;
 
-  function renderCitationList(element, entries, dom=document) {
-    if (entries.size > 0) {
-      element.style.display = '';
-      let list = element.querySelector('.references');
-      if (list) {
-        list.innerHTML = '';
+  function renderCitationList(element, entries, dom = document) {
+      if (entries.size > 0) {
+          element.style.display = '';
+
+          let list = element.querySelector('.references');
+          if (list) {
+              list.innerHTML = '';
+          } else {
+              const stylesTag = dom.createElement('style');
+              stylesTag.innerHTML = styles$1;
+
+              const heading = dom.createElement('h3');
+              heading.id = 'references';
+              heading.textContent = 'References';
+
+              list = dom.createElement('ol');
+              list.id = 'references-list';
+              list.className = 'references';
+
+              // Insert the new elements at the beginning of the parent element
+              element.insertBefore(list, element.firstChild);
+              element.insertBefore(heading, element.firstChild);
+              element.insertBefore(stylesTag, element.firstChild);
+          }
+
+          for (const [key, entry] of entries) {
+              const listItem = dom.createElement('li');
+              listItem.id = key;
+              listItem.innerHTML = bibliography_cite(entry);
+              list.appendChild(listItem);
+          }
       } else {
-        const stylesTag = dom.createElement('style');
-        stylesTag.innerHTML = styles$1;
-        element.appendChild(stylesTag);
-
-        const heading = dom.createElement('h3');
-        heading.id = 'references';
-        heading.textContent = 'References';
-        element.appendChild(heading);
-
-        list = dom.createElement('ol');
-        list.id = 'references-list';
-        list.className = 'references';
-        element.appendChild(list);
+          element.style.display = 'none';
       }
-
-      for (const [key, entry] of entries) {
-        const listItem = dom.createElement('li');
-        listItem.id = key;
-        listItem.innerHTML = bibliography_cite(entry);
-        list.appendChild(listItem);
-      }
-    } else {
-      element.style.display = 'none';
-    }
   }
+
 
   class CitationList extends HTMLElement {
 
@@ -2337,7 +2342,7 @@ d-citation-list .references .title {
     }
 
     set citations(citations) {
-      renderCitationList(this, citations);
+      renderCitationList(document.querySelector('d-appendix'), citations);
     }
 
   }
