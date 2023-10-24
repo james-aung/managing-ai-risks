@@ -2080,33 +2080,73 @@ d-appendix > distill-appendix {
 
   // import style from '../styles/d-byline.css';
 
+
+  // 4 column layout
+//   function bylineTemplate(frontMatter) {
+//     return `
+// <div class="authors-affiliations grid">
+//       <h3>Authors</h3>
+//       <h3>Affiliations</h3>
+//       ${frontMatter.authors.map(author => `
+//         <p class="author">
+//           ${author.personalURL ? `
+//             <a class="name" href="${author.personalURL}">${author.name}</a>` : `
+//             <span class="name">${author.name}</span>`}
+//         </p>
+//         <p class="affiliation">
+//         ${author.affiliations.map(affiliation =>
+//           affiliation.url ? `<a class="affiliation" href="${affiliation.url}">${affiliation.name}</a>` : `<span class="affiliation">${affiliation.name}</span>`
+//         ).join(', ')}
+//         </p>
+//       `).join('')}
+//     </div>
+
+//     <div>
+//       <h3>Published</h3>
+//         <p><em>October 23, 2023</em></p>
+//     </div>
+//   </div>
+// `;
+//   }
+
+
+  // Original single column layout
   function bylineTemplate(frontMatter) {
     return `
   <div class="byline grid">
-    <h1 id="byline-h1">Authors</h1>
     <div class="authors-affiliations grid">
-  ${frontMatter.authors.map(author => `
-    <div class="author-affiliation">
-      ${author.personalURL ? `
-        <a class="name" href="${author.personalURL}">${author.name}</a>` : `
-        <span class="name">${author.name}</span>`}
-      <p class="affiliation">
-      ${author.affiliations.map(affiliation =>
-        affiliation.url ? `<a class="affiliation" href="${affiliation.url}">${affiliation.name}</a>` : `<span class="affiliation">${affiliation.name}</span>`
-      ).join(', ')}
-      </p>
+      <h3>Authors</h3>
+      <h3>Affiliations</h3>
+      ${frontMatter.authors.map(author => `
+        <p class="author">
+          ${author.personalURL ? `
+            <a class="name" href="${author.personalURL}">${author.name}</a>` : `
+            <span class="name">${author.name}</span>`}
+        </p>
+        <p class="affiliation">
+        ${author.affiliations.map(affiliation =>
+          affiliation.url ? `<a class="affiliation" href="${affiliation.url}">${affiliation.name}</a>` : `<span class="affiliation">${affiliation.name}</span>`
+        ).join(', ')}
+        </p>
+      `).join('')}
     </div>
-  `).join('')}
-</div>
-
     <div>
       <h3>Published</h3>
-        <p><em>October 23, 2023</em></p>
+      ${frontMatter.publishedDate ? `
+        <p>${frontMatter.publishedMonth} ${frontMatter.publishedDay}, ${frontMatter.publishedYear}</p> ` : `
+        <p>October 23, 2023</p>`}
+    </div>
+    <div>
+      <h3>arXiv</h3>
+      ${frontMatter.doi ? `
+        <p><a href="https://doi.org/${frontMatter.doi}">${frontMatter.doi}</a></p>` : `
+        <p>Forthcoming.</p>`}
     </div>
   </div>
-`;
+  `;
   }
 
+                
   class Byline extends HTMLElement {
 
     static get is() { return 'd-byline'; }
@@ -2313,10 +2353,21 @@ d-citation-list .references .title {
               list.id = 'references-list';
               list.className = 'references';
 
-              // Insert the new elements at the beginning of the parent element
-              element.insertBefore(list, element.firstChild);
-              element.insertBefore(heading, element.firstChild);
-              element.insertBefore(stylesTag, element.firstChild);
+              // Append stylesTag as the last child
+              element.appendChild(stylesTag);
+
+              // Locate the <pre class="citation"> element
+              const preCitation = element.querySelector('.citation');
+
+              // Insert the heading and list right after the <pre class="citation"> element
+              if (preCitation) {
+                  element.insertBefore(heading, preCitation.nextSibling);
+                  element.insertBefore(list, heading.nextSibling);
+              } else {
+                  // If the <pre class="citation"> element does not exist, just append heading and list as before
+                  element.appendChild(heading);
+                  element.appendChild(list);
+              }
           }
 
           for (const [key, entry] of entries) {
@@ -2329,6 +2380,7 @@ d-citation-list .references .title {
           element.style.display = 'none';
       }
   }
+
 
 
   class CitationList extends HTMLElement {
