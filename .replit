@@ -1,7 +1,7 @@
 run = "node server.js"
 
 [auth]
-pageEnabled = true
+pageEnabled = false
 buttonEnabled = false
 
 [deployment]
