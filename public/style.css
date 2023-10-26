@@ -19,10 +19,11 @@ d-byline {
   margin-bottom: 15px !important;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 480px) {
 
   .byline .authors-affiliations {
     /* grid-template-columns: 1fr 1fr 1fr 1fr; */
+    white-space: nowrap;
   }
 
 }    

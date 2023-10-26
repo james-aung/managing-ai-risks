@@ -2103,7 +2103,7 @@ d-appendix > distill-appendix {
 
 //     <div>
 //       <h3>Published</h3>
-//         <p><em>October 23, 2023</em></p>
+//         <p><em>October 24, 2023</em></p>
 //     </div>
 //   </div>
 // `;
@@ -2115,8 +2115,8 @@ d-appendix > distill-appendix {
     return `
   <div class="byline grid">
     <div class="authors-affiliations grid">
-      <h3>Authors</h3>
-      <h3>Affiliations</h3>
+      <h2>Authors</h2>
+      <h2>Affiliations</h2>
       ${frontMatter.authors.map(author => `
         <p class="author">
           ${author.personalURL ? `
@@ -2134,7 +2134,7 @@ d-appendix > distill-appendix {
       <h3>Published</h3>
       ${frontMatter.publishedDate ? `
         <p>${frontMatter.publishedMonth} ${frontMatter.publishedDay}, ${frontMatter.publishedYear}</p> ` : `
-        <p>October 23, 2023</p>`}
+        <p>October 24, 2023</p>`}
     </div>
     <div>
       <h3>arXiv</h3>
